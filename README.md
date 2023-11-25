@@ -36,7 +36,7 @@ math.html
 <head>
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>Area of Rectangle</title>
+<title>Area of Square</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <style type="text/css">
 body 
@@ -52,11 +52,11 @@ padding-left: 300px;
 }
 .box {
 display:block;
-border: Thick dashed lime;
-width: 500px;
+border: Thick dashed black;
+width: 300px;
 min-height: 300px;
 font-size: 20px;
-background-color:blue;
+background-color:brown;
 }
 .formelt{
 color:orange;
@@ -75,14 +75,12 @@ padding-top: 20px;
 <body>
 <div class="edge">
 <div class="box">
-<h1>Area of a Rectangle</h1>
+<h1>Area of a Square</h1>
 <form method="POST">
 {% csrf_token %}
 <div class="formelt">
-Length : <input type="text" name="length" value="{{l}}"></input>(in m)<br/>
-</div>
-<div class="formelt">
-Breadth : <input type="text" name="breadth" value="{{b}}"></input>(in m)<br/>
+Side: <input type="text" name="side" value="{{a}}"></input>(in m)<br/>
+Height: <input type="text" name="height" value="{{h}}"></input>(in m)<br/>
 </div>
 <div class="formelt">
 <input type="submit" value="Calculate"></input><br/>
@@ -98,22 +96,22 @@ Area : <input type="text" name="area" value="{{area}}"></input>m<sup>2</sup><br/
 
 views.py
 from django.shortcuts import render
-def rectarea(request):
+def squarearea(request):
     context={}
     context['area'] = "0"
-    context['l'] = "0"
-    context['b'] = "0"
+    context['a'] = "0"
+    context['h'] = "0"
     if request.method == 'POST':
         print("POST method is used")
-        l = request.POST.get('length','0')
-        b = request.POST.get('breadth','0')
+        a = request.POST.get('side','0')
+        h = request.POST.get('height','0')
         print('request=',request)
-        print('Length=',l)
-        print('Breadth=',b)
-        area = int(l) * int(b)
+        print('Side',a)
+        print('Height',h)
+        area = 2*(int(a)**2)+4 *int(a)*int(h)
         context['area'] = area
-        context['l'] = l
-        context['b'] = b
+        context['a'] = a
+        context['h'] = h
         print('Area=',area)
     return render(request,'mathapp/math.html',context)
 
@@ -123,17 +121,16 @@ from django.urls import path
 from mathapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('areaofrectangle/',views.rectarea,name="areaofrectangle"),
-    path('',views.rectarea,name="areaofrectangleroot")
+    path('areaofsquare/',views.squarearea,name="areaofsquare"),
+    path('',views.squarearea,name="areaofsquareroot")
 ]
-
 ```
 
 ## SERVER SIDE PROCESSING:
-![Alt text](<Screenshot (51).png>)
+![Alt text](code.png)
 
 ## HOMEPAGE:
-![Alt text](<Screenshot (50).png>)
+![Alt text](square.png)
 
 ## RESULT:
 The program for performing server side processing is completed successfully.
